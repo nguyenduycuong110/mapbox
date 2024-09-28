@@ -1,0 +1,10 @@
+# /vendor
+# /node_modules
+# .env
+
+# /public/userfiles/image/product/*
+# /public/userfiles/image/product/may-cao-rau-shaver-9d-nhat-ban/*
+# /public/userfiles/image/product/may-hut-chan-khong-p290b-da-nang-cao-cap/*
+
+# /vendor/srmklive/paypal/tests/Mocks/samples/sample.pdf
+# /vendor/srmklive/paypal/tests/Mocks/samples/sample2.pdf
