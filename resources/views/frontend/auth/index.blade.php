@@ -1,44 +1,39 @@
 @extends('frontend.homepage.layout')
 @section('content')
     <div class="login-container">
-        <div class="uk-container uk-container-center">
-            <div class="login-page">
-                <div class="login-form">
-                    <form action="{{ route('fe.auth.dologin') }}" class="uk-form form">
-                        @csrf
-                        <div class="form-heading">Đăng nhập</div>
-                        <div class="form-row">
+        <div class="row">
+            <div class="col-lg-7">
+                
+            </div>
+            <div class="col-lg-5">
+                <div class="mx-auto">
+                    <h3 class="heading-2">Đăng nhập</h3>
+                    <form action="{{ route('fe.auth.dologin') }}" class="form-login">
+                        <div class="form-group mb15">
+                            <label for="">Email</label>
                             <input 
-                                type="text"
-                                name="email"
+                                type="text" 
+                                name="email" 
+                                class="form-control" 
+                                placeholder="Email" 
                                 value=""
-                                placeholder="Email đăng nhập"
-                                class="input-text"
                             >
                         </div>
-                        <div class="form-row">
+                        <div class="form-group mb15">
+                            <label for="">Password</label>
                             <input 
-                                type="password"
-                                name="password"
+                                type="password" 
+                                name="password" 
+                                class="form-control" 
+                                placeholder="Password" 
                                 value=""
-                                placeholder="Mật khẩu"
-                                class="input-text"
                             >
                         </div>
-                        <button type="submit" value="login" name="login">Đăng nhập</button>
-                        <div class="form-row forgot-password">
-                            <div class="uk-flex uk-flex-middle uk-flex-space-between">
-                                <a href="{{ route('forgot.customer.password') }}">Quên mật khẩu</a>
-                                <a href="{{ route('customer.auth.redirect') }}">Đăng nhập Google</a>
-                            </div>
-                        </div>
-                        <div class="register-box uk-text-center">
-                            Bạn mới biết đến {{ $system['homepage_brand'] }}? <a href="{{ route('customer.register') }}" class="s">Đăng ký</a>
-                        </div>
+                        <button type="submit" class="btn btn-success block full-width m-b">Đăng nhập</button>
                     </form>
                 </div>
             </div>
-        </div>  
+        </div>
     </div>
 
 @endsection

@@ -48,43 +48,27 @@ use App\Http\Controllers\Ajax\NotificationController as AjaxNotificationControll
 |
 */
 /* FRONTEND ROUTES  */
-Route::get('/', [HomeController::class, 'index'])->name('home.index');
+
+Route::get('/', [HomeController::class, 'index'])->name('home.index')->middleware('user');
 
 Route::get('tim-kiem'.config('apps.general.suffix'), [FeProductCatalogueController::class, 'search'])->name('product.catalogue.search');
 
 Route::get('lien-he'.config('apps.general.suffix'), [FeContactController::class, 'index'])->name('fe.contact.index');
 
+/* User  */
 
-/* CUSTOMER  */
+Route::get('user/login'.config('apps.general.suffix'), [FeAuthController::class, 'index'])->name('fe.auth.login'); 
 
-Route::get('customer/login'.config('apps.general.suffix'), [FeAuthController::class, 'index'])->name('fe.auth.login')->middleware('check_login'); 
-
-Route::get('customer/check/login'.config('apps.general.suffix'), [FeAuthController::class, 'login'])->name('fe.auth.dologin');
-
-Route::get('customer/password/forgot'.config('apps.general.suffix'), [FeAuthController::class, 'forgotCustomerPassword'])->name('forgot.customer.password');
-
-Route::get('customer/password/email'.config('apps.general.suffix'), [FeAuthController::class, 'verifyCustomerEmail'])->name('customer.password.email');
-
-Route::get('customer/register'.config('apps.general.suffix'), [FeAuthController::class, 'register'])->name('customer.register');
-
-Route::post('customer/reg'.config('apps.general.suffix'), [FeAuthController::class, 'registerAccount'])->name('customer.reg');
+Route::get('user/check/login'.config('apps.general.suffix'), [FeAuthController::class, 'login'])->name('fe.auth.dologin');
 
 
-Route::get('customer/password/update'.config('apps.general.suffix'), [FeAuthController::class, 'updatePassword'])->name('customer.update.password');
 
-Route::post('customer/password/change'.config('apps.general.suffix'), [FeAuthController::class, 'changePassword'])->name('customer.password.reset');
 
 Route::get('auth/redirect', [FeAuthController::class, 'redirectToGoogle'])->name('customer.auth.redirect');
-Route::get('auth/callback', [FeAuthController::class, 'handleGoogleCallback'])->name('customer.auth.callback');
-Route::post('send/confirm', [FeAuthController::class, 'sendConfirmCode'])->name('customer.send.confirm');
 
-Route::group(['middleware' => ['customer']], function () {
-   Route::get('customer/profile'.config('apps.general.suffix'), [FeCustomerController::class, 'profile'])->name('customer.profile');
-   Route::post('customer/profile/update'.config('apps.general.suffix'), [FeCustomerController::class, 'updateProfile'])->name('customer.profile.update');
-   Route::get('customer/password/reset'.config('apps.general.suffix'), [FeCustomerController::class, 'passwordForgot'])->name('customer.password.change');
-   Route::post('customer/password/recovery'.config('apps.general.suffix'), [FeCustomerController::class, 'recovery'])->name('customer.password.recovery');
-   Route::get('customer/logout'.config('apps.general.suffix'), [FeCustomerController::class, 'logout'])->name('customer.logout');
-});
+Route::get('auth/callback', [FeAuthController::class, 'handleGoogleCallback'])->name('customer.auth.callback');
+
+Route::post('send/confirm', [FeAuthController::class, 'sendConfirmCode'])->name('customer.send.confirm');
 
 Route::get('event/{id}/canonical'.config('apps.general.suffix'), [RouterController::class, 'event'])->name('router.event')->where(['id' => '[0-9]+']);
 

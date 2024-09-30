@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Repositories\Interfaces\SlideRepositoryInterface  as SlideRepository;
 use App\Repositories\Interfaces\SystemRepositoryInterface  as SystemRepository;
 use App\Repositories\Interfaces\PostRepositoryInterface  as PostRepository;
+use App\Repositories\Interfaces\CityRepositoryInterface  as CityRepository;
 use App\Services\Interfaces\WidgetServiceInterface  as WidgetService;
 use App\Services\Interfaces\SlideServiceInterface  as SlideService;
 use App\Enums\SlideEnum;
@@ -16,6 +17,7 @@ class HomeController extends FrontendController
     protected $language;
     protected $slideRepository;
     protected $postRepository;
+    protected $cityRepository;
     protected $systemRepository;
     protected $widgetService;
     protected $slideService;
@@ -23,6 +25,7 @@ class HomeController extends FrontendController
 
     public function __construct(
         PostRepository $postRepository,
+        CityRepository $cityRepository,
         SlideRepository $slideRepository,
         WidgetService $widgetService,
         SlideService $slideService,
@@ -30,6 +33,7 @@ class HomeController extends FrontendController
     ){
         $this->postRepository = $postRepository;
         $this->slideRepository = $slideRepository;
+        $this->cityRepository = $cityRepository;
         $this->widgetService = $widgetService;
         $this->slideService = $slideService;
         $this->systemRepository = $systemRepository;
@@ -51,6 +55,8 @@ class HomeController extends FrontendController
         $slides = $this->slideService->getSlide(
             [SlideEnum::BANNER, SlideEnum::MAIN, SlideEnum::CUSTOMER, SlideEnum::PARTNER ,  'banner'], $this->language);
 
+        $cities = $this->cityRepository->all()->toArray();
+
         $system = $this->system;
         
         $seo = [
@@ -70,15 +76,14 @@ class HomeController extends FrontendController
             'seo',
             'system',
             'language',
+            'cities'
         ));
     }
 
     public function ckfinder(){
         return view('frontend.homepage.home.ckfinder');
     }
-
-  
-
+    
     private function config(){
         return [
             'language' => $this->language,
@@ -89,6 +94,7 @@ class HomeController extends FrontendController
             'js' => [
                 'frontend/resources/plugins/OwlCarousel2-2.3.4/dist/owl.carousel.min.js',
                 'https://getuikit.com/v2/src/js/components/sticky.js',
+                'frontend/resources/map.js'
             ]
         ];
     }

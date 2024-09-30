@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 
-class Customer
+class User
 {
     /**
      * Handle an incoming request.
@@ -18,8 +18,8 @@ class Customer
 
     public function handle(Request $request, Closure $next): Response
     {
-        $customer_id = Cookie::get('customer_id');
-        if($customer_id == null){
+        $user_id = Cookie::get('user_id');
+        if($user_id == null){
             return redirect()->route('fe.auth.login')->with('error','Bạn phải đăng nhập để sử dụng chức năng này');
         }
 

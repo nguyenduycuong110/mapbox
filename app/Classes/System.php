@@ -79,6 +79,15 @@ class System{
             ]
         ];
 
+        $data['location'] = [
+            'label' => 'Cấu hình vị trí',
+            'description' => 'Cài đặt đầy đủ thông tin về vị trí quốc gia , vùng lãnh thổ , ...',
+            'value' => [
+                'lat' => ['type' => 'text', 'label' => 'Vĩ độ'],
+                'long' => ['type' => 'text', 'label' => 'Kinh độ'],
+            ]
+        ];
+
 
         return $data;
     }

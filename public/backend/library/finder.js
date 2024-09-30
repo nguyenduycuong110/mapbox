@@ -227,6 +227,42 @@
             }
         });
     };
+
+    HT.activeInputHour = () => {
+        $(document).on('click','.op-hour', function() {
+            let $inputs = $('.op-hour');
+            if (!$(this).hasClass('active')) {
+                $inputs.removeClass('active');
+                $(this).addClass('active');
+            } else {
+                $(this).removeClass('active');
+            }
+        });
+    }
+
+    HT.activeInputRoom = () => {
+        $(document).on('click','.total-rooms', function() {
+            let $inputs = $('.total-rooms');
+            if (!$(this).hasClass('active')) {
+                $inputs.removeClass('active');
+                $(this).addClass('active');
+            } else {
+                $(this).removeClass('active');
+            }
+        });
+    }
+
+    HT.activeInputGuest = () => {
+        $(document).on('click','.current_guest', function() {
+            let $inputs = $('.current_guest');
+            if (!$(this).hasClass('active')) {
+                $inputs.removeClass('active');
+                $(this).addClass('active');
+            } else {
+                $(this).removeClass('active');
+            }
+        });
+    }
     
     
     
@@ -234,6 +270,9 @@
     
    
 	$(document).ready(function(){
+        HT.activeInputGuest()
+        HT.activeInputRoom()
+        HT.activeInputHour()
         HT.changeTotalGuest()
         HT.changeTotalRooms()
         HT.changeOpenHour()

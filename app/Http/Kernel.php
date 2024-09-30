@@ -56,7 +56,7 @@ class Kernel extends HttpKernel
         'apply_language' => \App\Http\Middleware\ApplyLanguageMiddleware::class,
         'login' => \App\Http\Middleware\LoginMiddleware::class,
         'admin' => \App\Http\Middleware\AuthenticateMiddleware::class,
-        'customer' => \App\Http\Middleware\Customer::class,
+        'user' => \App\Http\Middleware\User::class,
         'check_login' => \App\Http\Middleware\CheckLogin::class,
         'post' => \App\Http\Middleware\Post::class,
         'locale' => \App\Http\Middleware\SetLocale::class,

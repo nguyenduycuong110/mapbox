@@ -8586,9 +8586,9 @@ body.md-skin {
     margin-right: 10px !important;
     /* display: none; */
 }
-.color-box{
+/* .color-box{
     display: flex;
-}
+} */
  .input-select{
     display: flex;
     margin-bottom: 10px;
@@ -8605,8 +8605,10 @@ body.md-skin {
     margin-bottom: 8px;
     text-align: center;
 }
- .input-select input:focus{
-    border-color : #1ab394 !important;
+.input-select input.active,
+.input-select input:focus{
+    background : #1ab394 !important;
+    color: #fff !important;
 }
 .tb-color{
     display: block;
@@ -8619,4 +8621,7 @@ body.md-skin {
 }
 .mt10{
     margin-top: 10px;
+}
+.control-label{
+    margin-bottom: 10px !important;
 }
