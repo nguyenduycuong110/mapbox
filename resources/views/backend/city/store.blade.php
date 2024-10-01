@@ -33,7 +33,23 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-lg-6">
+                                <div class="form-row">
+                                    <label for="" class="control-label text-left">Số điện thoại<span class="text-danger">(*)</span></label>
+                                    <div class="phone">
+                                        <input 
+                                            type="text"
+                                            name="phone"
+                                            value="{{ old('phone', $city->phone ?? null) }}"
+                                            class="form-control"
+                                            autocomplete="off"
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
                                 <div class="form-row">
                                     <label for="" class="control-label text-left">Vĩ độ <span class="text-danger">(*)</span></label>
                                     <div class="lat">
@@ -47,7 +63,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-lg-6">
                                 <div class="form-row">
                                     <label for="" class="control-label text-left">Kinh độ <span class="text-danger">(*)</span></label>
                                     <div class="long">

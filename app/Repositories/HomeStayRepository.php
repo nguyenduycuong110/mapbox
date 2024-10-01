@@ -50,9 +50,11 @@ class HomeStayRepository extends BaseRepository implements HomeStayRepositoryInt
         return $this->model->select([
             'homestays.*',
             'tb2.code',
-            'tb2.description'
+            'tb2.description',
+            'tb3.name as name_city'
         ])
         ->join('colors as tb2','tb2.id','=','homestays.color_id')
+        ->join('cities as tb3','tb3.id','=','homestays.city_id')
         ->where('city_id', $city_id)
         ->get();
     }

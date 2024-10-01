@@ -95,7 +95,6 @@ class HomeController extends FrontendController
             'js' => [
                 'frontend/resources/plugins/OwlCarousel2-2.3.4/dist/owl.carousel.min.js',
                 'https://getuikit.com/v2/src/js/components/sticky.js',
-                'frontend/resources/map.js'
             ]
         ];
     }

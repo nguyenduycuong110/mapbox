@@ -1,7 +1,7 @@
 @extends('frontend.homepage.layout')
 
 @section('content')
-    <div id="homepage">
+    <div id="homepage" class="homepage">
         @include('frontend.component.sidebar',['cities' => $cities])
         <div 
             id="mapContainer"

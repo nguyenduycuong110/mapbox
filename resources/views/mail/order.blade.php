@@ -112,6 +112,28 @@
             }
         </style>
     </head>
+    <div class="popup">
+        <a href="" class="image img-cover">
+            <img src="${item.image}" alt="">
+        </a>
+        <strong>${item.name}</strong>
+        <div class="info">
+            <div class="uk-grid uk-grid-medium">
+                <div class="uk-width-medium-1-2">
+                    <a href="" class="map">
+                        Xem bản đồ
+                    </a>
+                </div>
+                <div class="uk-width-medium-1-2">
+                    <p class="price">
+                        
+                        ${item.price}
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+    </div>
     <body>
         <div class="cart-success">
             <div class="panel-body">

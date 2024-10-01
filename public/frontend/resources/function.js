@@ -81,7 +81,6 @@
 		});
 	}
 
-
 	HT.wow = () => {
 		var wow = new WOW(
 			{
@@ -508,7 +507,6 @@
 			});
 		})
 	}
-
 
 
 	$(document).ready(function(){

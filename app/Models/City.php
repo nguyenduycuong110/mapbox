@@ -17,6 +17,7 @@ class City extends Authenticatable
         'name',
         'lat',
         'long',
+        'phone',
         'publish'
     ];
 

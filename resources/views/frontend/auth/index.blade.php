@@ -3,7 +3,9 @@
     <div class="login-container">
         <div class="row">
             <div class="col-lg-7">
-                
+                <a class="thumb image img-cover">
+                    <img src="/userfiles/image/khach-san-5-sao-quan-3.jpg" alt="">
+                </a>
             </div>
             <div class="col-lg-5">
                 <div class="mx-auto">

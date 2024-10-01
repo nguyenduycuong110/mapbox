@@ -6,6 +6,7 @@ use App\Http\Controllers\FrontendController;
 use Illuminate\Http\Request;
 use App\Repositories\Interfaces\HomeStayRepositoryInterface as HomeStayRepository;
 use App\Repositories\Interfaces\CityRepositoryInterface as CityRepository;
+use App\Repositories\Interfaces\ColorRepositoryInterface as ColorRepository;
 
 class LocationController extends FrontendController
 {
@@ -13,13 +14,16 @@ class LocationController extends FrontendController
     protected $system;
     protected $homeStayRepository;
     protected $cityRepository;
+    protected $colorRepository;
     
     public function __construct(
         HomeStayRepository $homeStayRepository,
         CityRepository $cityRepository,
+        ColorRepository $colorRepository,
     ){
         $this->homeStayRepository = $homeStayRepository;
         $this->cityRepository = $cityRepository;
+        $this->colorRepository = $colorRepository;
         parent::__construct(); 
     }
 
@@ -33,6 +37,8 @@ class LocationController extends FrontendController
         $list_city = $this->cityRepository->all()->toArray();
 
         $homeStay = $this->homeStayRepository->getAllHomeStay($city_id)->toArray();
+
+        $colors = $this->colorRepository->all()->toArray();
 
         $system = $this->system;
 
@@ -51,7 +57,8 @@ class LocationController extends FrontendController
             'system',
             'list_city',
             'city',
-            'homeStay'
+            'homeStay',
+            'colors'
         ));
         
     }
