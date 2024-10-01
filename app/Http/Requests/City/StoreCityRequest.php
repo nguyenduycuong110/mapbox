@@ -22,7 +22,7 @@ class StoreCityRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
+            'name' => 'required|unique:cities',
             'lat' => 'required',
             'long' => 'required',
         ];
@@ -32,6 +32,7 @@ class StoreCityRequest extends FormRequest
     {
         return [
             'name.required' => 'Bạn chưa nhập tỉnh - thành phố.',
+            'name.unique' => 'Tỉnh - thành phố đã tồn tại',
             'lat.required' => 'Bạn chưa nhập vĩ độ.',
             'long.required' => 'Bạn chưa nhập kinh độ.',
         ];

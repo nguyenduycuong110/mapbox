@@ -29,7 +29,7 @@ use App\Http\Controllers\Backend\SystemController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\RouterController;
 use App\Http\Controllers\Frontend\AuthController as FeAuthController;
-use App\Http\Controllers\Frontend\CustomerController as FeCustomerController;
+use App\Http\Controllers\Frontend\UserController as FeUserController;
 use App\Http\Controllers\Ajax\Frontend\AuthController as AjaxAuthController;
 use App\Http\Controllers\Ajax\NotificationController as AjaxNotificationController;
 
@@ -61,9 +61,6 @@ Route::get('user/login'.config('apps.general.suffix'), [FeAuthController::class,
 
 Route::get('user/check/login'.config('apps.general.suffix'), [FeAuthController::class, 'login'])->name('fe.auth.dologin');
 
-
-
-
 Route::get('auth/redirect', [FeAuthController::class, 'redirectToGoogle'])->name('customer.auth.redirect');
 
 Route::get('auth/callback', [FeAuthController::class, 'handleGoogleCallback'])->name('customer.auth.callback');
@@ -79,6 +76,12 @@ Route::get('{canonical}'.config('apps.general.suffix'), [RouterController::class
 Route::get('{canonical}/trang-{page}'.config('apps.general.suffix'), [RouterController::class, 'page'])->name('router.page')->where('canonical', '[a-zA-Z0-9-]+')->where('page', '[0-9]+');
 
 /* FRONTEND SYSTEM */
+
+/* User */
+
+Route::get('user/logout'.config('apps.general.suffix'), [FeUserController::class, 'logout'])->name('user.logout');
+
+Route::get('location/{canonical}/{id}'.config('apps.general.suffix'), [RouterController::class, 'location'])->name('router.location')->where(['id' => '[0-9]+']);
 
 
 /* FRONTEND AJAX ROUTE */

@@ -4,9 +4,9 @@ namespace App\Http\ViewComposers;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
-use App\Models\Customer;
+use App\Models\User;
 
-class CustomerComposer
+class UserComposer
 {
 
 
@@ -18,11 +18,11 @@ class CustomerComposer
 
     public function compose(View $view)
     {
-        $customer_cookie = Customer::where('id', Cookie::get('customer_id'))->first();
+        $user_cookie = user::where('id', Cookie::get('user_id'))->first();
 
-        $customer = Auth::guard('customer')->user() ?? $customer_cookie;
+        $user = Auth::guard('web')->user() ?? $user_cookie;
 
-        $view->with('customerAuth', $customer);
+        $view->with('userAuth', $user);
 
     }
 

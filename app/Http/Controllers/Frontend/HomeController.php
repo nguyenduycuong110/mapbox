@@ -11,6 +11,7 @@ use App\Repositories\Interfaces\CityRepositoryInterface  as CityRepository;
 use App\Services\Interfaces\WidgetServiceInterface  as WidgetService;
 use App\Services\Interfaces\SlideServiceInterface  as SlideService;
 use App\Enums\SlideEnum;
+use Illuminate\Support\Str;
 
 class HomeController extends FrontendController
 {

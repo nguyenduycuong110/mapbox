@@ -46,4 +46,15 @@ class HomeStayRepository extends BaseRepository implements HomeStayRepositoryInt
             ->withQueryString()->withPath(env('APP_URL').$extend['path']);
     }
 
+    public function getAllHomeStay($city_id = 0){
+        return $this->model->select([
+            'homestays.*',
+            'tb2.code',
+            'tb2.description'
+        ])
+        ->join('colors as tb2','tb2.id','=','homestays.color_id')
+        ->where('city_id', $city_id)
+        ->get();
+    }
+
 }

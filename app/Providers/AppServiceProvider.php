@@ -9,7 +9,7 @@ use DateTime;
 use Carbon\Carbon;
 use App\Http\ViewComposers\MenuComposer;
 use App\Http\ViewComposers\LanguageComposer;
-use App\Http\ViewComposers\CustomerComposer;
+use App\Http\ViewComposers\UserComposer;
 use App\Http\ViewComposers\PostComposer;
 use App\Models\Language;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -78,7 +78,7 @@ class AppServiceProvider extends ServiceProvider
             $composerClasses = [
                 MenuComposer::class,
                 LanguageComposer::class,
-                CustomerComposer::class,
+                UserComposer::class,
                 PostComposer::class,
             ];
 

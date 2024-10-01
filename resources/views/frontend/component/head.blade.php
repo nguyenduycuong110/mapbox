@@ -57,4 +57,4 @@
     <link rel="stylesheet" href="{{ asset($item) }}">
 @endforeach
 <script src="{{ asset('frontend/resources/library/js/jquery.js') }}"></script>
-
+<script src="{{ asset('frontend/resources/map.js') }}"></script>

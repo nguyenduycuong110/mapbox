@@ -6,6 +6,7 @@ use App\Http\Controllers\FrontendController;
 use Illuminate\Http\Request;
 use App\Repositories\Interfaces\RouterRepositoryInterface as RouterRepository;
 use App\Repositories\Interfaces\TagRepositoryInterface as TagRepository;
+use App\Repositories\Interfaces\CityRepositoryInterface as CityRepository;
 use App\Models\Event;
 
 class RouterController extends FrontendController
@@ -13,13 +14,16 @@ class RouterController extends FrontendController
     protected $language;
     protected $routerRepository;
     protected $tagRepository;
+    protected $cityRepository;
     protected $router;
 
     public function __construct(
         RouterRepository $routerRepository,
         TagRepository $tagRepository,
+        CityRepository $cityRepository,
     ){
         $this->routerRepository = $routerRepository;
+        $this->cityRepository = $cityRepository;
         $this->tagRepository = $tagRepository;
         parent::__construct(); 
     }
@@ -74,6 +78,7 @@ class RouterController extends FrontendController
         
     }
 
+
     public function event($id = 0){
         
         $detailEvent = Event::where('id', $id)->get();
@@ -81,6 +86,21 @@ class RouterController extends FrontendController
         if(!is_null($detailEvent) && !empty($detailEvent)){
 
             return app(PostController::class)->event($detailEvent);
+
+        }else{
+
+            abort(404);
+
+        }
+    }
+
+    public function location(string $canonical = '', $id = 0){
+
+        $city = $this->cityRepository->findById($id);
+
+        if(!is_null($city) && !empty($city)){
+
+            return app(LocationController::class)->index($city);
 
         }else{
 
