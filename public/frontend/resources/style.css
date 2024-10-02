@@ -897,20 +897,34 @@ ul li{
     border: none !important;
 }
 
-#mapContainer,
+#mapContainer{
+    width: 100%;
+    height: 100vh;
+}
 #mapLocation{
     height: 100vh;
-    width: 80%;
+    width: 100%;
 }
 #mapLocation canvas,
 #mapContainer canvas{
     cursor: pointer;
 }
+.sidebar .btn-close{
+    right: 5%;
+}
 .sidebar{
+    position: fixed;
     height: 100vh;
-    width: 20%;
+    width: 310px;
+    left: 0px;
+    top: 0px;
+    z-index: 10;
     background: rgba(255, 255, 255, 1);
     box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.65);
+    display: block;
+}
+.sidebar.active{
+    display: none;
 }
 #homepage{
     width: 100%;
@@ -1031,6 +1045,7 @@ a:hover{
     background-size: cover;
     background-position: center;
     box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    cursor: pointer;
 }
 .marker-label {
     position: absolute;
@@ -1051,7 +1066,7 @@ a:hover{
     padding: 15px 10px;
     padding-top: 20px;
     width: 340px;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.6);
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     background: rgba(255, 255, 255, 1);
     border-radius: 10px;
 }
@@ -1064,7 +1079,7 @@ a:hover{
 }
 .popup .image{
     margin-bottom: 5px;
-    height: 130px;
+    height: 180px;
 }
 .popup .info{
     padding-bottom: 5px;
@@ -1256,12 +1271,14 @@ a:hover{
 }
 .popup-content input{
     height: 30px;
-    border: 1px solid rgba(0, 0, 0, 1) !important;
+    border: 1px solid #CDCDCD !important;
     border-radius: 5px;
     outline: none;
     padding-left: 10px;
 }
-
+.form-ip input:hover{
+    border: 1px solid #1ab394 !important;
+}
 .popup-content .quantitybox .quantity-button{
     position: absolute;
     height: 30px;
@@ -1273,12 +1290,12 @@ a:hover{
 .popup-content  .minus{
     left: 0;
     top: 0;
-    border-right: 1px solid #000;
+    border-right: 1px solid #CDCDCD ;
 }
 .popup-content  .plus{
     right: 0;
     top: 0;
-    border-left: 1px solid #000;
+    border-left: 1px solid #CDCDCD ;
 }
 .popup-content .form-ip .ip-guest{
     margin-right: 10px;
@@ -1332,18 +1349,21 @@ a:hover{
 .info .lower{
     display: flex;
 }
+.btn-close:hover,
 .filter-close:hover {
     background: #8c4e39;
     color: #fff;
     transform: rotate(360deg);
 }
+.btn-close,
 .filter-close {
     position: absolute;
     top: 10px;
     right: 15px;
     width: 40px;
+    color: #fff;
     height: 40px;
-    background: #fdc040;
+    background: #1ab394;
     border-radius: 50%;
     text-align: center;
     line-height: 44px;
@@ -1419,4 +1439,56 @@ a:hover{
     background: #fff !important;
     box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15) !important;
     opacity: 1;
+}
+.panel-album .swiper-button-prev,
+.panel-album .swiper-button-next{
+    background-image: none !important;
+}
+.panel-album .swiper-button-prev::after,
+.panel-album .swiper-button-next::after{
+    color: #fff;
+    width: 30px;
+    height: 20px;
+}
+.button-arrow{
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    z-index: 1000;
+    display: block;
+}
+.button-arrow.active{
+    display: none;
+}
+.button-arrow .btn-arr{
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
+    background: rgba(31, 31, 31, 1);
+    border: none;
+    border-radius: 50%;
+}
+.menu-svg path {
+    stroke: #d3131e;
+}
+.menu-svg path:nth-child(1) {
+    stroke-dasharray: 40 160;
+}
+.menu-svg path {
+    fill: none;
+    -webkit-transition: stroke-dasharray 0.4s, stroke-dashoffset 0.4s;
+    transition: stroke-dasharray 0.4s, stroke-dashoffset 0.4s;
+    stroke: #fff;
+    stroke-width: 5;
+    stroke-linecap: round;
+}
+.menu-svg path:nth-child(3) {
+    stroke-dasharray: 40 85;
+    -webkit-transform-origin: 50%;
+    transform-origin: 50%;
+    -webkit-transition: stroke-dashoffset 0.4s, -webkit-transform 0.4s;
+    transition: stroke-dashoffset 0.4s, -webkit-transform 0.4s;
+    transition: transform 0.4s, stroke-dashoffset 0.4s;
+    transition: transform 0.4s, stroke-dashoffset 0.4s, -webkit-transform 0.4s;
 }

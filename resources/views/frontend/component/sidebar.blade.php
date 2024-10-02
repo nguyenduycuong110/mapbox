@@ -1,4 +1,7 @@
 <div class="sidebar">
+    <div class="btn-close">
+        <i class="fi fi-rs-cross"></i>
+    </div>
     <div class="wrapper">
         <div class="info">
             @if(isset($userAuth))

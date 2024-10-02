@@ -1,6 +1,17 @@
 @extends('frontend.homepage.layout')
 @section('content')
     <div class="location-container">
+        <div class="button-arrow active" style="">
+            <button class="btn-arr">
+                <svg class="menu-svg" viewBox="0 0 100 100">
+                    <path d="m 30,33 h 40 c 3.722839,0 7.5,3.126468 7.5,8.578427 0,5.451959 -2.727029,8.421573 -7.5,8.421573 h -20">
+                    </path>
+                    <path d="m 30,50 h 40"></path>
+                    <path d="m 70,67 h -40 c 0,0 -7.5,-0.802118 -7.5,-8.365747 0,-7.563629 7.5,-8.634253 7.5,-8.634253 h 20">
+                    </path>
+                </svg>
+            </button>
+        </div>
         @include('frontend.component.sidebar',['cities' => $list_city])
         <div 
             id="mapLocation"
@@ -45,7 +56,7 @@
                                             <img src="{{ $item['image'] }}" alt="">
                                     </a>
                                     <p class="status">
-                                        <span style="border: 2px solid {{ $item['code'] }}; color:{{ $item['code'] }};">{{ $item['description'] }}</span>
+                                        <span class="color" style="border: 2px solid {{ $item['code'] }}; color:{{ $item['code'] }};">{{ $item['description'] }}</span>
                                     </p>
                                 </div>
                                 <div class="info">
@@ -58,13 +69,21 @@
                                                         <label for="">Số khách</label>
                                                         <div class="quantitybox uk-flex uk-flex-middle">
                                                             <div class="minus quantity-button">-</div>
-                                                            <input type="text" name="" value="1" class="quantity-text">
+                                                            <input type="text" id="quantity_guest" name="" value="1" class="quantity-text">
                                                             <div class="plus quantity-button">+</div>
                                                         </div>
                                                     </div>
                                                     <div class="ip-price">
                                                         <label for="">Giá</label>
-                                                        <input type="number" id="quantity_price" value="1" min="0" max="5000000" step="1">
+                                                        <input 
+                                                            class="int"
+                                                            type="number" 
+                                                            id="quantity_price" 
+                                                            value="1" 
+                                                            min="1" 
+                                                            max="5000000" 
+                                                            step="1"
+                                                        >
                                                     </div>
                                                 </div>
                                             </div>
@@ -77,9 +96,10 @@
                                                     <path d="M4.07692 17.0001C1 17.0001 1 12.2001 1 8.38468C3.45768 7.64416 4.80285 7.67437 7.15384 8.38468C7.15384 12.2001 7.15384 17.0001 4.07692 17.0001Z" fill="#D7E0FF" stroke="#A6A6A6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                                     <path d="M13.9231 8.38456C10.8462 8.38456 10.8462 12.7049 10.8462 16.5202C13.2496 17.1225 14.5968 17.1356 17 16.5202C17 12.7049 17 8.38456 13.9231 8.38456Z" fill="#D7E0FF" stroke="#A6A6A6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                                 </svg>
-                                                <p>{{ $item['current_guests'] }} khách</p>
+                                                <p class="customer">{{ $item['current_guests'] }} khách </p>
                                             </div>
                                             <div class="status">
+                                                <input type="hidden" class="ip-home" data-homestay="{{ $item['id'] }}" data-city="{{ $item['city_id'] }}">
                                                 @if(isset($colors))
                                                     @foreach($colors as $color)
                                                         <a 
@@ -123,52 +143,56 @@
                                         </a>
                                     </div>
                                 </div>
-                            </li>
-                            <div id="modal-{{ $item['id'] }}" uk-modal>
-                                <div class="uk-modal-dialog uk-modal-body">
-                                    <button class="uk-modal-close-default" type="button" uk-close></button>
-                                    <h2 class="uk-modal-title">Thông tin chi tiết HomeStay</h2>
-                                    <div class="form-row mb15">
-                                        <label for="">Tiêu đề :</label>
-                                        <input type="text" value="{{ $item['name'] }}" class="form-control">
+                                <div id="modal-{{ $item['id'] }}" uk-modal>
+                                    <div class="uk-modal-dialog uk-modal-body">
+                                        <button class="uk-modal-close-default" type="button" uk-close></button>
+                                        <h2 class="uk-modal-title">Thông tin chi tiết HomeStay</h2>
+                                        <div class="form-row mb15">
+                                            <label for="">Tiêu đề :</label>
+                                            <input type="text" value="{{ $item['name'] }}" class="form-control">
+                                        </div>
+                                        <div class="form-row mb15">
+                                            <label for="">Giá :</label>
+                                            <input type="text" value="{{ number_format($item['price'] , 0, ',', '.') }}" class="form-control int">
+                                        </div>
+                                        <div class="form-row mb15">
+                                            <label for="">Địa chỉ :</label>
+                                            <input type="text" value="{{ $item['address'] }}" class="form-control">
+                                        </div>
+                                        <div class="form-row mb15">
+                                            <label for="">Giờ mở cửa :</label>
+                                            <input type="text" value="{{ __('messages.open_hours')[$item['open_hours']] }}" class="form-control">
+                                        </div>
+                                        <div class="form-row mb15">
+                                            <label for="">Số phòng :</label>
+                                            <input type="text" value="{{ __('messages.total_rooms')[$item['total_rooms']] }}" class="form-control">
+                                        </div>
+                                        <div class="form-row mb15">
+                                            <label for="">Số khách hiện tại :</label>
+                                            <input type="text" value="{{ __('messages.current_guests')[$item['current_guests']] }}" class="form-control">
+                                        </div>
+                                        <div class="form-row mb15">
+                                            <label for="">Vĩ độ :</label>
+                                            <input type="text" value="{{ $item['lat'] }}" class="form-control">
+                                        </div>
+                                        <div class="form-row mb15">
+                                            <label for="">Kinh độ :</label>
+                                            <input type="text" value="{{ $item['long'] }}" class="form-control">
+                                        </div>
+                                        <div class="form-row mb15">
+                                            <label for="">Tỉnh / thành phố :</label>
+                                            <input type="text" value="{{ $item['name_city'] }}" class="form-control">
+                                        </div>
+                                        <div class="form-row mb15">
+                                            <label for="">Tình trạng :</label>
+                                            <input type="text" value="{{ $item['description'] }}" class="form-control">
+                                        </div>
+                                        <p class="uk-text-right">
+                                            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                                        </p>
                                     </div>
-                                    <div class="form-row mb15">
-                                        <label for="">Địa chỉ :</label>
-                                        <input type="text" value="{{ $item['address'] }}" class="form-control">
-                                    </div>
-                                    <div class="form-row mb15">
-                                        <label for="">Giờ mở cửa :</label>
-                                        <input type="text" value="{{ __('messages.open_hours')[$item['open_hours']] }}" class="form-control">
-                                    </div>
-                                    <div class="form-row mb15">
-                                        <label for="">Số phòng :</label>
-                                        <input type="text" value="{{ __('messages.total_rooms')[$item['total_rooms']] }}" class="form-control">
-                                    </div>
-                                    <div class="form-row mb15">
-                                        <label for="">Số khách hiện tại :</label>
-                                        <input type="text" value="{{ __('messages.current_guests')[$item['current_guests']] }}" class="form-control">
-                                    </div>
-                                    <div class="form-row mb15">
-                                        <label for="">Vĩ độ :</label>
-                                        <input type="text" value="{{ $item['lat'] }}" class="form-control">
-                                    </div>
-                                    <div class="form-row mb15">
-                                        <label for="">Kinh độ :</label>
-                                        <input type="text" value="{{ $item['long'] }}" class="form-control">
-                                    </div>
-                                    <div class="form-row mb15">
-                                        <label for="">Tỉnh / thành phố :</label>
-                                        <input type="text" value="{{ $item['name_city'] }}" class="form-control">
-                                    </div>
-                                    <div class="form-row mb15">
-                                        <label for="">Tình trạng :</label>
-                                        <input type="text" value="{{ $item['description'] }}" class="form-control">
-                                    </div>
-                                    <p class="uk-text-right">
-                                        <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                                    </p>
                                 </div>
-                            </div>
+                            </li>
                         @endforeach
                     </ul>
                 @endif
@@ -176,7 +200,7 @@
         </div>
     </div>
     <script>
-        var homeStay = @json($homeStay);
+        var list_homestay = @json($homeStay);
         var open_hours = @json(__('messages.open_hours'));
         var total_rooms = @json(__('messages.total_rooms'));
         var current_guests = @json(__('messages.current_guests'));

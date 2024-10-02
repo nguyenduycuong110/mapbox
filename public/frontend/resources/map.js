@@ -1,6 +1,9 @@
 (function($) {
     "use strict";
     var HT = {}; 
+    var homeStay = homeStay;
+    let map; 
+    let markers = []; 
 
     function createSlug(name) {
         const specialChars = {
@@ -25,7 +28,6 @@
             .replace(/--+/g, '-') 
             .replace(/^-+|-+$/g, ''); 
     }
-    
 
     HT.loadMap = () => {
         
@@ -113,8 +115,131 @@
     
     };
 
+    HT.changeColor = () => {
+        $(document).on('click','.st', function(e){
 
-    HT.loadLocation = () => {
+            e.preventDefault();
+
+            let _this = $(this)
+
+            let color_id = _this.data('color')
+
+            let city_id = _this.closest('.status').find('.ip-home').data('city')
+
+            let homestay_id = _this.closest('.status').find('.ip-home').data('homestay')
+
+            if(!_this.hasClass('active')){
+                
+                _this.closest('.status').find('.st').removeClass('active')
+
+                $.ajax({
+
+                    url: 'ajax/user/changeStatus', 
+
+                    type: 'GET', 
+
+                    data: {
+                        color_id : color_id,
+                        homestay_id : homestay_id,
+                        city_id : city_id
+                    }, 
+
+                    dataType: 'json', 
+
+                    success: function(res) {
+                        if(res.homestay){
+                            let items = res.homestay
+                            HT.loadLocation(items)
+                            _this.addClass('active')
+                            _this.closest('.homestay-item').find('.color').css({
+                                'border': `2px solid ${res.temp[0].code}`,
+                                'color': `${res.temp[0].code}`
+                            }).text(res.temp[0].description);
+                        }
+                    },
+                });
+    
+            }
+        })
+    }
+
+    HT.changePrice = () => {
+        $(document).on('blur', '#quantity_price', function() {
+
+            let _this = $(this)
+
+            let city_id = _this.closest('.homestay-item').find('.ip-home').data('city')
+
+            let homestay_id = _this.closest('.homestay-item').find('.ip-home').data('homestay')
+
+            let price = _this.val()
+
+            $.ajax({
+
+                url: 'ajax/user/changePrice', 
+
+                type: 'GET', 
+
+                data: {
+                    price : price,
+                    homestay_id : homestay_id,
+                    city_id : city_id
+                }, 
+
+                dataType: 'json', 
+
+                success: function(res) {
+                    if(res.homestay){
+                        let items = res.homestay
+                        HT.loadLocation(items)
+                    }
+                },
+            });
+
+        });
+    };
+
+    HT.changeGuest = () => {
+
+        $(document).on('blur', '#quantity_guest', function() {
+
+            let _this = $(this)
+
+            let city_id = _this.closest('.homestay-item').find('.ip-home').data('city')
+
+            let homestay_id = _this.closest('.homestay-item').find('.ip-home').data('homestay')
+
+            let current_guests = _this.val()
+
+            $.ajax({
+
+                url: 'ajax/user/changeGuest', 
+
+                type: 'GET', 
+
+                data: {
+                    current_guests : current_guests,
+                    homestay_id : homestay_id,
+                    city_id : city_id
+                }, 
+
+                dataType: 'json', 
+
+                success: function(res) {
+                    _this.closest('.homestay-item').find('.customer').text(`${res.temp[0].current_guests} khách`);
+                },
+            });
+
+        });
+    }
+
+    HT.loadLocation = (items) => {
+
+        if(map) {
+            clearMarkers();
+            map.dispose();
+            map = null; 
+        }
 
         var platform = new H.service.Platform({
             'apikey': 'HwI3lnNYwzirBSKkXL-dtfkv5hQMKc_gRxoh1El2k78'
@@ -126,19 +251,10 @@
 
         var longLocation = $('#mapLocation').data('long');
 
-        var map = new H.Map(document.getElementById('mapLocation'),
-
-            defaultLayers.vector.normal.map, {
-
-            center: {
-                lat: latLocation, 
-                lng: longLocation,
-            },
-
-            zoom: 13,
-
-            pixelRatio: window.devicePixelRatio || 13
-
+        map = new H.Map(document.getElementById('mapLocation'), defaultLayers.vector.normal.map, {
+            center: { lat: latLocation, lng: longLocation },
+            zoom: 12,
+            pixelRatio: window.devicePixelRatio || 12
         });
 
         window.addEventListener('resize', () => map.getViewPort().resize());
@@ -147,98 +263,69 @@
 
         var ui = H.ui.UI.createDefault(map, defaultLayers.vector.normal.map);
 
-     
-        if(homeStay){
-            homeStay.forEach(function(item) {
+        const dataToUse = Array.isArray(items) && items.length > 0 ? items : (typeof list_homestay !== 'undefined' && list_homestay.length > 0 ? list_homestay : []);
 
-                var LocatioOfMaker = { 
+        dataToUse.forEach(item => addMarker(item, ui));
 
-                    lat: parseFloat(item.lat), 
-
-                    lng: parseFloat(item.long) 
-
-                }
-
-                var domIcon = HT.createCircularDomIconWithLabel(item.image, item.name, 48, item.code);
-
-                var domMarker = HT.createDomMarkerWithOffset(LocatioOfMaker, domIcon);
-
-                map.addObject(domMarker);
-
-                var nameDiv = document.createElement('div');
-
-                nameDiv.innerHTML = item.name;
-
-                nameDiv.className = 'homestay';
-
-                Object.assign(nameDiv.style, {
-                    background : item.code, 
-                });
-
-                map.getElement().appendChild(nameDiv);
-
-                map.addEventListener('mapviewchange', function() {
-
-                    var coords = map.geoToScreen(LocatioOfMaker);
-
-                    nameDiv.style.left = `${coords.x}px`;
-
-                    nameDiv.style.top = `${coords.y + 10}px`;
-
-                });
-
-                domMarker.addEventListener('tap', function(evt) {
-
-                    var bubble = new H.ui.InfoBubble(LocatioOfMaker, {
-
-                        content: HT.loadPopUp(item) 
-
-                    });
-
-                    ui.addBubble(bubble);
-
-                    HT.swiperPopup(); 
-                    
-                });
-            });
-
-        }
-            
     }
 
-    HT.swiperPopup = () => {
-		var swiper = new Swiper(".panel-album .swiper-container", {
-			loop: false,
-			pagination: {
-				el: '.swiper-pagination',
-			},
-			spaceBetween: 20,
-			slidesPerView: 2,
-			breakpoints: {
-				300: {
-					slidesPerView: 1,
-				},
-				500: {
-				  slidesPerView: 1,
-				},
-				768: {
-				  slidesPerView: 1,
-				},
-				1280: {
-					slidesPerView: 1,
-				}
-			},
-			navigation: {
-				nextEl: '.swiper-button-next',
-				prevEl: '.swiper-button-prev',
-			},
-			
-		});
-	}
+    function addMarker(item, ui) {
+
+        const locationOfMarker = {
+
+            lat: parseFloat(item.lat),
+
+            lng: parseFloat(item.long)
+        };
+    
+        const domIcon = HT.createCircularDomIconWithLabel(item.image, item.name, 48, item.code);
+
+        const domMarker = HT.createDomMarkerWithOffset(locationOfMarker, domIcon);
+
+        map.addObject(domMarker);
+
+        markers.push(domMarker);
+    
+        const nameDiv = document.createElement('div');
+
+        nameDiv.innerHTML = item.name;
+
+        nameDiv.className = 'homestay';
+
+        Object.assign(nameDiv.style, {
+            background: item.code,
+        });
+    
+        map.getElement().appendChild(nameDiv);
+    
+        map.addEventListener('mapviewchange', () => {
+
+            const coords = map.geoToScreen(locationOfMarker);
+
+            nameDiv.style.left = `${coords.x}px`;
+
+            nameDiv.style.top = `${coords.y + 10}px`;
+
+        });
+    
+        domMarker.addEventListener('tap', () => {
+
+            const bubble = new H.ui.InfoBubble(locationOfMarker, {
+                content: HT.loadPopUp(item)
+            });
+            ui.addBubble(bubble);
+
+            HT.swiperPopup();
+        });
+    }
+
+    function clearMarkers() {
+        markers.forEach(marker => map.removeObject(marker));
+        markers = []; 
+    }
 
 
     HT.loadPopUp = (item) => {
-
 
         let album = JSON.parse(item.album)
 
@@ -255,6 +342,8 @@
         let html = `<div class="popup">
                         <div class="panel-album">
                             <div class="swiper-container">
+                                <div class="swiper-button-next"></div>
+                                <div class="swiper-button-prev"></div>
                                 <div class="swiper-wrapper">
                                     ${slides}
                                 </div>
@@ -311,6 +400,38 @@
                     </div>`
         return html;
     }
+
+
+    HT.swiperPopup = () => {
+		var swiper = new Swiper(".panel-album .swiper-container", {
+			loop: false,
+			pagination: {
+				el: '.swiper-pagination',
+			},
+			spaceBetween: 20,
+			slidesPerView: 2,
+			breakpoints: {
+				300: {
+					slidesPerView: 1,
+				},
+				500: {
+				  slidesPerView: 1,
+				},
+				768: {
+				  slidesPerView: 1,
+				},
+				1280: {
+					slidesPerView: 1,
+				}
+			},
+			navigation: {
+				nextEl: '.swiper-button-next',
+				prevEl: '.swiper-button-prev',
+			},
+			
+		});
+	}
+
 
     HT.createCircularDomIconWithLabel = (imageUrl, label, size = 64, background) => {
 
@@ -423,8 +544,45 @@
 
     }
 
+    HT.reset = () => {
+        $(document).on('click','.btn-reset', function(e){
+            e.preventDefault();
+            let _this = $(this)
+            const val_default = 1;
+            _this.closest('.homestay-item').find('input[id="quantity_guest"]').val(val_default);
+            _this.closest('.homestay-item').find('input[id="quantity_price"]').val(val_default); 
+        })
+    }
+
+    HT.openArrow = () => {
+        $(document).on('click','.btn-arr', function(){
+            $('.sidebar').removeClass('active'),
+            $('.button-arrow').addClass('active')
+        });
+    }
+
+    HT.closeArrow = () => {
+        $(document).on('click','.btn-close', function(){
+            $('.sidebar').addClass('active'),
+            $('.button-arrow').removeClass('active')
+        });
+    }
+
+    
 
     $(document).ready(function(){
+
+        HT.changeGuest()
+
+        HT.changePrice()
+
+        HT.changeColor()
+
+        HT.openArrow()
+        
+        HT.closeArrow()
+
+        HT.reset()
 
         HT.addActive()
 

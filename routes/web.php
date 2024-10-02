@@ -31,11 +31,9 @@ use App\Http\Controllers\Frontend\RouterController;
 use App\Http\Controllers\Frontend\AuthController as FeAuthController;
 use App\Http\Controllers\Frontend\UserController as FeUserController;
 use App\Http\Controllers\Ajax\Frontend\AuthController as AjaxAuthController;
+use App\Http\Controllers\Ajax\Frontend\UserController as AjaxUserController;
 use App\Http\Controllers\Ajax\NotificationController as AjaxNotificationController;
 
-
-
-//@@useController@@
 
 /*
 |--------------------------------------------------------------------------
@@ -102,6 +100,11 @@ Route::get('ajax/customer/registerEvent', [AjaxDashboardController::class, 'regi
 
 Route::get('ajax/customer/registerNotification', [AjaxDashboardController::class, 'registerNotification'])->name('ajax.customer.registerNotification');
 
+Route::get('ajax/user/changeStatus', [AjaxUserController::class, 'changeStatus'])->name('ajax.user.changeStatus');
+
+Route::get('ajax/user/changePrice', [AjaxUserController::class, 'changePrice'])->name('ajax.user.changePrice');
+
+Route::get('ajax/user/changeGuest', [AjaxUserController::class, 'changeGuest'])->name('ajax.user.changeGuest');
 
 /* BACKEND ROUTES */
 

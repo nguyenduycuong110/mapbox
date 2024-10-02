@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-lg-7">
                 <a class="thumb image img-cover">
-                    <img src="/userfiles/image/khach-san-5-sao-quan-3.jpg" alt="">
+                    <img src="{{ $system['background_lg'] }}" alt="">
                 </a>
             </div>
             <div class="col-lg-5">

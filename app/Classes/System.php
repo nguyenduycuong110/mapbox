@@ -89,6 +89,14 @@ class System{
             ]
         ];
 
+        $data['background'] = [
+            'label' => 'Cấu hình Background',
+            'description' => 'Cài đặt đầy đủ background , ...',
+            'value' => [
+                'lg' =>  ['type' => 'images', 'label' => 'Background_Login'],
+            ]
+        ];
+
 
         return $data;
     }
