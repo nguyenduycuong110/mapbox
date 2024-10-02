@@ -572,6 +572,11 @@
 
     $(document).ready(function(){
 
+        if ($(window).width() <= 600) {
+            $('.sidebar').addClass('active');
+            $('.button-arrow').removeClass('active');
+        }
+
         HT.changeGuest()
 
         HT.changePrice()

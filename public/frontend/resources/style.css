@@ -1492,3 +1492,30 @@ a:hover{
     transition: transform 0.4s, stroke-dashoffset 0.4s;
     transition: transform 0.4s, stroke-dashoffset 0.4s, -webkit-transform 0.4s;
 }
+@media(max-width:576px){
+    .login-container .col-lg-7{
+        display: none !important;
+    }
+    .login-container .col-lg-5 .mx-auto {
+        width: 80% !important;
+    }
+    .popup-content{
+        z-index: 1000;
+        width: 100% !important;
+    }
+    .popup-content ul li {
+        flex-wrap: wrap;
+    }
+    .popup-content .list-homestay .thumb{
+        margin-bottom: 10px;
+    }
+    .contact-fixed {
+        z-index: 10;
+    }
+    .popup .image{
+        height: 150px;
+    }
+    .H_ib_content{
+        width: 320px !important;
+    }
+}
